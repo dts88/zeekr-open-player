@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">开源播放器</string>
+    <string name="notification_channel">正在播放</string>
+</resources>

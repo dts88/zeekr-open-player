@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Open Player</string>
+    <string name="notification_channel">Now playing</string>
+</resources>
