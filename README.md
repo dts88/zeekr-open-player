@@ -21,7 +21,7 @@ The interface comes in Chinese and English: Chinese when the system language is 
 
 ## Status
 
-- The amplifier cannot be controlled yet (Zeekr is expected to offer Z-Tuner soon).
+- The app does not try to control the amplifier. The solutions published online so far appear to be software-side shaping: the audio is pre-processed before it reaches the amplifier, which is not an actual adjustment of what the amplifier hardware can output. Software shaping only makes the amplifier's result worse.
 - No extra tuning is applied per channel: that work can get very complicated, and it can also end up sounding bad.
 
 ## Listening impressions, and a question
@@ -86,7 +86,7 @@ Dolby, Dolby Vision and DTS are trademarks of their respective owners and are us
 
 **现状**
 
-- 目前还不能控制功放（预计极氪很快会提供 Z-Tuner）。
+- 并不试图控制功放。目前网上公布的方案似乎是软件方面的修饰，即对传入功放前的音频进行预处理，并非对功放硬件输出能力的实际调整。软件修饰只会让功放产生的效果变得更加糟糕。
 - 目前没有对不同声道额外做调教：这件事可以很复杂，也可以很难听。
 
 **主观听感，以及一个想请教的问题**
