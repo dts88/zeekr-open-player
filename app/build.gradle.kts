@@ -23,8 +23,8 @@ android {
         applicationId = "io.github.dts88.openplayer"
         minSdk = 28
         targetSdk = 36
-        versionCode = 1010
-        versionName = "1.1.0"
+        versionCode = 1011
+        versionName = "1.1.1"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 
@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.media3.exoplayer)
     implementation(libs.media3.ui)
     implementation(libs.media3.session)
+    implementation(libs.media3.exoplayer.hls)
     implementation(libs.media3.ffmpeg.decoder)
     implementation(libs.recyclerview)
     implementation(libs.ass.media)

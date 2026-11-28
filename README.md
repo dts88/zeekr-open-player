@@ -14,7 +14,7 @@ Author: dts88 · Repository: <https://github.com/dts88/zeekr-open-player>
 - **Subtitles**: embedded and same-name external subtitles (SRT, ASS / SSA, WebVTT, Blu-ray image subtitles), ASS effects rendered, adjustable delay, size and position.
 - **Levels**: the Sound panel on the player page shows the level of each channel sent to the head unit, so it is clear at a glance which outputs carry sound.
 - **Files**: browse USB drives and the head unit's storage by folder; MKV, MP4, Blu-ray M2TS, FLAC, WAV, AIFF, DSD, CUE sheets and more; resume from where playback stopped.
-- **Emby**: sign in to an Emby server, browse its libraries and play straight from the server. The original files are played as they are, and the playback position is reported back to the server.
+- **Emby**: sign in to an Emby server, browse its libraries with posters, search, and play straight from the server. The original file is played by default; with a quality limit chosen, the server transcodes videos above it. Subtitles kept beside the file on the server are offered too, and the playback position is reported back to the server.
 
 Besides local files, the app can play from an Emby server.
 
@@ -61,7 +61,7 @@ Open-source components:
 
 | Component | License |
 | --- | --- |
-| AndroidX Media3 1.9.0 | Apache License 2.0 |
+| AndroidX Media3 1.9.0 (ExoPlayer, HLS, UI, Session) | Apache License 2.0 |
 | Jellyfin media3-ffmpeg-decoder 1.9.0+1 (FFmpeg) | GPL-3.0 |
 | AndroidX RecyclerView | Apache License 2.0 |
 | ass-media 0.5.1 (libass, FreeType, FriBidi, HarfBuzz) | MIT / ISC / FTL / LGPL-2.1 / MIT |
@@ -82,7 +82,7 @@ Dolby, Dolby Vision and DTS are trademarks of their respective owners and are us
 - **字幕**：内嵌与同名外挂字幕（SRT、ASS / SSA、WebVTT、蓝光图形字幕），ASS 特效渲染，字幕延迟、大小、位置可调。
 - **电平**：播放页「声音」面板显示送往车机的各声道电平，哪一路有声一眼可见。
 - **文件**：按文件夹浏览 U 盘与车机存储；MKV、MP4、蓝光 M2TS、FLAC、WAV、AIFF、DSD、CUE 分轨等；断点续播。
-- **Emby**：登录 Emby 服务器，浏览媒体库并直接播放服务器上的原文件，播放进度同步回服务器。
+- **Emby**：登录 Emby 服务器，浏览媒体库（带海报）、搜索，并直接播放。默认播放服务器上的原文件；选择画质上限后，高于该码率的影片由服务器转码。服务器上的外挂字幕同样可选，播放进度同步回服务器。
 
 除本地文件外，也可连接 Emby 服务器播放。系统语言是中文时界面显示中文，其余语言显示英文。
 

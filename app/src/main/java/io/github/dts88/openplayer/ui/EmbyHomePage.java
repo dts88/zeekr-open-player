@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import java.util.List;
 
 final class EmbyHomePage extends Page {
     private static final int FORM_WIDTH = 920;
+    private static final int LIBRARY_ART_DP = 118;
 
     private final EmbyHub hub;
     private LinearLayout column;
@@ -69,9 +71,40 @@ final class EmbyHomePage extends Page {
         card.addView(Ui.settingRow(c, Tx.t("已登录", "Signed in"), hub.userName() + "  ·  " + hub.address(),
                 Ui.button(c, Tx.t("退出登录", "Sign out"), false, () -> {
                     hub.signOut();
+                    Posters.clear(c);
                     fill("");
                 })));
+        card.addView(Ui.divider(c));
+        card.addView(Ui.settingRow(c, Tx.t("画质", "Quality"),
+                Tx.t("原画：播放服务器上的原文件。选择码率后，高于该码率的影片由服务器转码后播放，起播与跳转较慢。",
+                        "Original plays the file as it is on the server. With a bitrate chosen, videos above it are transcoded by the server, which makes starting and seeking slower."),
+                null));
+        LinearLayout.LayoutParams steps = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        steps.leftMargin = dp(20);
+        steps.bottomMargin = dp(8);
+        card.addView(Ui.segmented(c, EmbyHub.qualityLabels(), hub.qualityIndex(), hub::setQualityIndex), steps);
         column.addView(card, Ui.fillWidth());
+
+        LinearLayout find = Ui.row(c);
+        EditText term = input(Tx.t("搜索影片、剧集、音乐", "Search films, series and music"), "", false);
+        term.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN | EditorInfo.IME_ACTION_SEARCH);
+        Runnable go = () -> {
+            String text = term.getText().toString().trim();
+            if (text.isEmpty()) return;
+            hideKeyboard(term);
+            shell.open(new EmbyListPage(shell, text));
+        };
+        term.setOnEditorActionListener((v, action, event) -> {
+            go.run();
+            return true;
+        });
+        find.addView(term, Ui.weight(1));
+        find.addView(Ui.space(c, 12, 1));
+        find.addView(Ui.button(c, Tx.t("搜索", "Search"), false, go));
+        LinearLayout.LayoutParams fl = Ui.fillWidth();
+        fl.topMargin = dp(14);
+        column.addView(find, fl);
 
         TextView heading = Ui.section(c, Tx.t("媒体库", "Libraries"));
         heading.setPadding(dp(4), dp(18), 0, dp(10));
@@ -103,10 +136,18 @@ final class EmbyHomePage extends Page {
     private void addLibraries(LinearLayout list, List<EmbyItem> views) {
         for (EmbyItem view : views) {
             LinearLayout row = Ui.row(c);
-            row.setMinimumHeight(dp(Ui.TOUCH + 12));
-            row.setPadding(dp(20), 0, dp(20), 0);
+            row.setPadding(dp(12), dp(10), dp(20), dp(10));
             row.setBackground(Ui.pressable(c, Ui.SUNKEN, Ui.RADIUS));
-            row.addView(Ui.icon(c, "folder", 28, Ui.TEXT2));
+            FrameLayout frame = new FrameLayout(c);
+            frame.setBackground(Ui.round(c, Ui.SURFACE, 6));
+            frame.setClipToOutline(true);
+            frame.addView(Ui.icon(c, "folder", 28, Ui.TEXT3), new FrameLayout.LayoutParams(dp(28), dp(28),
+                    android.view.Gravity.CENTER));
+            ImageView art = new ImageView(c);
+            art.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            frame.addView(art, Ui.fill());
+            Posters.into(art, hub.imageUrl(view, dp(LIBRARY_ART_DP) * 2), dp(LIBRARY_ART_DP));
+            row.addView(frame, new LinearLayout.LayoutParams(dp(LIBRARY_ART_DP), dp(LIBRARY_ART_DP * 9 / 16)));
             TextView name = Ui.oneLine(Ui.text(c, view.name, Ui.ROW, Ui.TEXT));
             name.setPadding(dp(18), 0, 0, 0);
             row.addView(name, Ui.weight(1));
@@ -190,7 +231,7 @@ final class EmbyHomePage extends Page {
         e.setMinHeight(dp(Ui.TOUCH));
         e.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI | EditorInfo.IME_FLAG_NO_FULLSCREEN | EditorInfo.IME_ACTION_DONE);
         e.setInputType(password ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD
-                : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_URI);
+                : InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         return e;
     }
 

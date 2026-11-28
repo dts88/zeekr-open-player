@@ -90,6 +90,22 @@ public final class PlayerEngine {
         }
     }
 
+    public static final class ExternalSubtitle {
+        public final Uri uri;
+        public final String mimeType;
+        public final String language;
+        public final String label;
+        public final boolean selected;
+
+        public ExternalSubtitle(Uri uri, String mimeType, String language, String label, boolean selected) {
+            this.uri = uri;
+            this.mimeType = mimeType;
+            this.language = language;
+            this.label = label;
+            this.selected = selected;
+        }
+    }
+
     public static final class Item {
         public final Uri uri;
         public final String title;
@@ -97,14 +113,15 @@ public final class PlayerEngine {
         public final List<CueSheet.Track> chapters;
         public final String chapterSource;
         public final long startMs;
+        public final List<ExternalSubtitle> subtitles;
         private final int remote;
 
         public Item(Uri uri, String title) {
-            this(uri, title, "", Collections.emptyList(), "", -1, 0);
+            this(uri, title, "", Collections.emptyList(), "", -1, 0, Collections.emptyList());
         }
 
         private Item(Uri uri, String title, String subtitle, List<CueSheet.Track> chapters, String chapterSource,
-                     long startMs, int remote) {
+                     long startMs, int remote, List<ExternalSubtitle> subtitles) {
             this.uri = uri;
             this.title = title;
             this.subtitle = subtitle;
@@ -112,6 +129,7 @@ public final class PlayerEngine {
             this.chapterSource = chapterSource;
             this.startMs = startMs;
             this.remote = remote;
+            this.subtitles = subtitles;
         }
 
         public static Item file(File f) {
@@ -119,19 +137,24 @@ public final class PlayerEngine {
         }
 
         public static Item remote(Uri uri, String title, boolean audio) {
-            return new Item(uri, title, "", Collections.emptyList(), "", -1, audio ? 2 : 1);
+            return new Item(uri, title, "", Collections.emptyList(), "", -1, audio ? 2 : 1, Collections.emptyList());
+        }
+
+        public Item subtitles(List<ExternalSubtitle> list) {
+            return new Item(uri, title, subtitle, chapters, chapterSource, startMs, remote, list);
         }
 
         public Item titled(String title, String subtitle) {
-            return new Item(uri, title, subtitle == null ? "" : subtitle, chapters, chapterSource, startMs, remote);
+            return new Item(uri, title, subtitle == null ? "" : subtitle, chapters, chapterSource, startMs, remote,
+                    subtitles);
         }
 
         public Item chapters(List<CueSheet.Track> list, String source) {
-            return new Item(uri, title, subtitle, list, source, startMs, remote);
+            return new Item(uri, title, subtitle, list, source, startMs, remote, subtitles);
         }
 
         public Item startAt(long ms) {
-            return new Item(uri, title, subtitle, chapters, chapterSource, ms, remote);
+            return new Item(uri, title, subtitle, chapters, chapterSource, ms, remote, subtitles);
         }
 
         public boolean audioOnly() {
@@ -944,8 +967,20 @@ public final class PlayerEngine {
         if (!it.subtitle.isEmpty()) meta.setArtist(it.subtitle);
         MediaItem.Builder b = new MediaItem.Builder().setUri(it.uri).setMediaMetadata(meta.build());
         File f = it.file();
-        if (f == null) return b.build();
         List<MediaItem.SubtitleConfiguration> configs = new ArrayList<>();
+        if (f == null) {
+            for (ExternalSubtitle sub : it.subtitles) {
+                configs.add(new MediaItem.SubtitleConfiguration.Builder(sub.uri)
+                        .setMimeType(sub.mimeType)
+                        .setLanguage(sub.language)
+                        .setLabel(sub.label)
+                        .setId(String.valueOf(SIDECAR_ID_BASE + configs.size()))
+                        .setSelectionFlags(sub.selected ? C.SELECTION_FLAG_DEFAULT : 0)
+                        .build());
+            }
+            if (!configs.isEmpty()) b.setSubtitleConfigurations(configs);
+            return b.build();
+        }
         File cache = new File(app.getCacheDir(), "subs");
         for (SidecarSubtitles.Found sub : SidecarSubtitles.find(f)) {
             try {
