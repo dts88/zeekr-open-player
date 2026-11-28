@@ -97,38 +97,45 @@ public final class PlayerEngine {
         public final List<CueSheet.Track> chapters;
         public final String chapterSource;
         public final long startMs;
+        private final int remote;
 
         public Item(Uri uri, String title) {
-            this(uri, title, "", Collections.emptyList(), "", -1);
+            this(uri, title, "", Collections.emptyList(), "", -1, 0);
         }
 
         private Item(Uri uri, String title, String subtitle, List<CueSheet.Track> chapters, String chapterSource,
-                     long startMs) {
+                     long startMs, int remote) {
             this.uri = uri;
             this.title = title;
             this.subtitle = subtitle;
             this.chapters = chapters;
             this.chapterSource = chapterSource;
             this.startMs = startMs;
+            this.remote = remote;
         }
 
         public static Item file(File f) {
             return new Item(Uri.fromFile(f), f.getName());
         }
 
+        public static Item remote(Uri uri, String title, boolean audio) {
+            return new Item(uri, title, "", Collections.emptyList(), "", -1, audio ? 2 : 1);
+        }
+
         public Item titled(String title, String subtitle) {
-            return new Item(uri, title, subtitle == null ? "" : subtitle, chapters, chapterSource, startMs);
+            return new Item(uri, title, subtitle == null ? "" : subtitle, chapters, chapterSource, startMs, remote);
         }
 
         public Item chapters(List<CueSheet.Track> list, String source) {
-            return new Item(uri, title, subtitle, list, source, startMs);
+            return new Item(uri, title, subtitle, list, source, startMs, remote);
         }
 
         public Item startAt(long ms) {
-            return new Item(uri, title, subtitle, chapters, chapterSource, ms);
+            return new Item(uri, title, subtitle, chapters, chapterSource, ms, remote);
         }
 
         public boolean audioOnly() {
+            if (remote != 0) return remote == 2;
             File f = file();
             return f != null && MediaFiles.isAudio(f);
         }

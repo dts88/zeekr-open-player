@@ -14,8 +14,9 @@ Author: dts88 · Repository: <https://github.com/dts88/zeekr-open-player>
 - **Subtitles**: embedded and same-name external subtitles (SRT, ASS / SSA, WebVTT, Blu-ray image subtitles), ASS effects rendered, adjustable delay, size and position.
 - **Levels**: the Sound panel on the player page shows the level of each channel sent to the head unit, so it is clear at a glance which outputs carry sound.
 - **Files**: browse USB drives and the head unit's storage by folder; MKV, MP4, Blu-ray M2TS, FLAC, WAV, AIFF, DSD, CUE sheets and more; resume from where playback stopped.
+- **Emby**: sign in to an Emby server, browse its libraries and play straight from the server. The original files are played as they are, and the playback position is reported back to the server.
 
-The app plays local files only.
+Besides local files, the app can play from an Emby server.
 
 The interface comes in Chinese and English: Chinese when the system language is Chinese, English otherwise.
 
@@ -65,7 +66,7 @@ Open-source components:
 | AndroidX RecyclerView | Apache License 2.0 |
 | ass-media 0.5.1 (libass, FreeType, FriBidi, HarfBuzz) | MIT / ISC / FTL / LGPL-2.1 / MIT |
 
-Dolby, Dolby Vision and DTS are trademarks of their respective owners and are used here only to describe the audio and picture formats of media files; this app is not certified by those companies and neither contains nor bypasses any licensing mechanism. Zeekr is a trademark of its owner; this project is not affiliated with it.
+Dolby, Dolby Vision and DTS are trademarks of their respective owners and are used here only to describe the audio and picture formats of media files; this app is not certified by those companies and neither contains nor bypasses any licensing mechanism. Zeekr and Emby are trademarks of their owners; this project is not affiliated with them.
 
 ---
 
@@ -81,8 +82,9 @@ Dolby, Dolby Vision and DTS are trademarks of their respective owners and are us
 - **字幕**：内嵌与同名外挂字幕（SRT、ASS / SSA、WebVTT、蓝光图形字幕），ASS 特效渲染，字幕延迟、大小、位置可调。
 - **电平**：播放页「声音」面板显示送往车机的各声道电平，哪一路有声一眼可见。
 - **文件**：按文件夹浏览 U 盘与车机存储；MKV、MP4、蓝光 M2TS、FLAC、WAV、AIFF、DSD、CUE 分轨等；断点续播。
+- **Emby**：登录 Emby 服务器，浏览媒体库并直接播放服务器上的原文件，播放进度同步回服务器。
 
-本应用只播放本地文件。系统语言是中文时界面显示中文，其余语言显示英文。
+除本地文件外，也可连接 Emby 服务器播放。系统语言是中文时界面显示中文，其余语言显示英文。
 
 **现状**
 
@@ -109,4 +111,4 @@ Dolby, Dolby Vision and DTS are trademarks of their respective owners and are us
 
 > 凡使用本项目的代码、参数或实测结论的程序或网站，必须在其主界面注明本仓库地址 <https://github.com/dts88/zeekr-open-player> 与作者 dts88。
 
-Dolby、Dolby Vision、DTS 为各自所有者的商标，此处仅用于说明影片的音轨与画面格式；本应用未获上述公司认证，也不包含、不绕过任何授权机制。Zeekr 为其所有者的商标，本项目与其无隶属关系。
+Dolby、Dolby Vision、DTS 为各自所有者的商标，此处仅用于说明影片的音轨与画面格式；本应用未获上述公司认证，也不包含、不绕过任何授权机制。Zeekr、Emby 为各自所有者的商标，本项目与其无隶属关系。

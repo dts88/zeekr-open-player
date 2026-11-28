@@ -23,8 +23,8 @@ android {
         applicationId = "io.github.dts88.openplayer"
         minSdk = 28
         targetSdk = 36
-        versionCode = 1002
-        versionName = "1.0.2"
+        versionCode = 1010
+        versionName = "1.1.0"
         ndk { abiFilters += listOf("arm64-v8a") }
     }
 

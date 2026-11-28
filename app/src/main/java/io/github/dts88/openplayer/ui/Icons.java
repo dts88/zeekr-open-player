@@ -220,6 +220,14 @@ public final class Icons extends Drawable {
                 c.drawCircle(12, 12, 9, stroke);
                 c.drawCircle(12, 12, 2.5f, stroke);
                 break;
+            case "server":
+                rect.set(3, 4, 21, 10.5f);
+                c.drawRoundRect(rect, 2, 2, stroke);
+                rect.set(3, 13.5f, 21, 20);
+                c.drawRoundRect(rect, 2, 2, stroke);
+                dot(c, 7, 7.25f);
+                dot(c, 7, 16.75f);
+                break;
             default:
                 c.drawCircle(12, 12, 8, stroke);
         }

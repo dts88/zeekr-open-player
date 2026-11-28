@@ -34,9 +34,10 @@ import java.util.List;
 
 @OptIn(markerClass = UnstableApi.class)
 public final class ShellActivity extends Activity {
-    private final String[][] nav = {{Tx.t("文件", "Files"), "folder"}, {Tx.t("设置", "Settings"), "settings"}, {Tx.t("关于", "About"), "info"}};
+    private final String[][] nav = {{Tx.t("文件", "Files"), "folder"}, {"Emby", "server"}, {Tx.t("设置", "Settings"), "settings"}, {Tx.t("关于", "About"), "info"}};
     static final int TAB_FILES = 0;
-    static final int TAB_SETTINGS = 1;
+    static final int TAB_EMBY = 1;
+    static final int TAB_SETTINGS = 2;
     private static final long QUIT_CONFIRM_MS = 4000;
     private static final long TICK_MS = 500;
 
@@ -221,6 +222,8 @@ public final class ShellActivity extends Activity {
         switch (index) {
             case TAB_FILES:
                 return new FilesPage(this, null, Tx.t("文件", "Files"));
+            case TAB_EMBY:
+                return new EmbyHomePage(this);
             case TAB_SETTINGS:
                 return new SettingsPage(this);
             default:
